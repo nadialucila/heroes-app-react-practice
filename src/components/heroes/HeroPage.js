@@ -14,10 +14,10 @@ export const HeroPage = ({history}) => {
     const {id, superhero, publisher, alter_ego, first_appearance, characters} = hero;
 
     const handleReturn = () => {
-        if( history.length >= 2 ) {
-        history.push('/');
+        if( history.length <= 2 ) {
+            history.push('/');
         } else {
-        history.goBack();
+            history.goBack();
         }
     }
 
