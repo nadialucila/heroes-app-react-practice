@@ -7,7 +7,7 @@ import {DashboardRoutes} from './DashboardRoutes'
 export default function App() {
   return (
     <BrowserRouter>
-      <div>
+      <div style={{height: '100%', width: '100%'}}>
         <Switch>
           <Route exact path="/login" component={ LoginPage } />
           <Route path="/" component={ DashboardRoutes } />
