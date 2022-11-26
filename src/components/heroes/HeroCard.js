@@ -12,7 +12,7 @@ export const HeroCard = ({hero}) => {
 
     return (
         <div
-            className={`card ms-3 ${onMouseEnterState}`}
+            className={`card ms-3 ${onMouseEnterState} animate__animated animate__fadeIn`}
             onMouseEnter={ () => handleMouseAction(true) }
             onMouseLeave={ () => handleMouseAction(false) }
             style={{ maxWidth: '540px'}}
