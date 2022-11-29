@@ -1,21 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../../auth/AuthContext'
+import { types } from '../../types/types';
 
 export const LoginPage = ({ history }) => {
 
+  const {dispatch} = useContext(AuthContext);
+
   const handleLogin = () => {
-    //history.push('/'); //añade el / a la historia
-    //cuanda vaya para atras va a poder volver a esta pagina
-    history.replace('/'); 
-    //con replace, cuando aprete login y quiera volver para atras
-    //no va a volver a esta pagina pues fue reemplazada
-    //en la historia.
+    const lastPath = localStorage.getItem('lastPath') || '/';
+    const action = {
+      type: types.login,
+      payload: {
+        user: 'nadia'
+      }
+    }
+    dispatch(action);
+    history.replace( lastPath );
   }
 
   return (
     <div className='container mt-5'>
         <h1> Login </h1>
         <hr/>
-
         <button
           className='btn btn-success'
           onClick={ handleLogin }
