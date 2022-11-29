@@ -1,17 +1,22 @@
-import React, { useState } from 'react'
-import { heroes } from '../../data/heroes'
-import { useForm } from '../../hooks/useForm';
+import React, { useEffect, useMemo, useState } from 'react'
+import queryString from 'query-string';
 import { HeroCard } from '../heroes/HeroCard';
+import {useForm} from '../../hooks/useForm';
+import { useLocation } from 'react-router-dom';
+import { getHeroesByName } from '../../selectors/getHeroesByName';
+import { heroes } from '../../data/heroes';
 
 export const SearchPage = ({history}) => {
 
-    const {values, handleInputChange} = useForm({search: ''});
-    const {search} = values;
-    const heroesFiltered = heroes;
+    const location = useLocation();
+    const {q = ''} = queryString.parse(location.search); // q igual a string vacio para que no me de undefined
+    const [{busqueda}, handleInputChange] = useForm({busqueda: q});
+
+     const heroesFiltered = useMemo(() => getHeroesByName(q), [q]);
 
     const handleSearch = (e) => {
         e.preventDefault();
-        history.push(`?q=${ search }`);
+        history.push(`?q=${ busqueda }`);
     }
 
     return (
@@ -25,15 +30,14 @@ export const SearchPage = ({history}) => {
                     <hr/>
                     <form onSubmit={ handleSearch }>
                         <input
-                            type='text'
-                            value={ search }
-                            placeholder='Buscar'
-                            className='form-control'
-                            onChange={ handleInputChange }
-                            name='search'
+                            type="text"
+                            className="form-control"
+                            name="busqueda"
+                            value={ busqueda }
+                            onChange={ handleInputChange  }
                         />
                         <button
-                            type='submit'
+                            type="submit"
                             className='btn mt-1 btn-block btn-outline-primary'
                         >
                             Buscar
@@ -45,8 +49,8 @@ export const SearchPage = ({history}) => {
                     <hr/>
                     {
                         heroesFiltered.map( heroe => (
-                            <HeroCard hero={heroe} />
-                        ) )
+                            <HeroCard key={heroe.id} hero={heroe} />
+                        ))
                     }
                 </div>
             </div>
